@@ -1,11 +1,7 @@
-import robocode.*;
-import robocode.Robot;
-
-import java.awt.*;
-
 import robocode.AdvancedRobot;
 import robocode.ScannedRobotEvent;
-import robocode.util.Utils;
+
+import java.awt.*;
 
 public class Wraiithbot extends AdvancedRobot {
 
@@ -18,14 +14,28 @@ public class Wraiithbot extends AdvancedRobot {
         // scan for any other robots
 
         while (true) {
-            setAhead(100);
-            setTurnRight(90);
-            setAhead(100);
-            setAhead(-150);
-            setTurnRight(45);
-            setAhead(-80);
-
+            move();
             scan();
+            shoot();
+        }
+    }
+
+    public void move () {
+        setAhead(100);
+        setTurnRight(90);
+        setAhead(100);
+        setTurnRight(90);
+        setAhead(100);
+        setTurnRight(90);
+        setAhead(100);
+        setTurnRight(90);
+    }
+
+    public void shoot () {
+        if (getEnergy() < 15) {
+            fire(3);
+        } else {
+            fire(1);
         }
     }
 
@@ -37,17 +47,12 @@ public class Wraiithbot extends AdvancedRobot {
                         - getRadarHeadingRadians();
 
         // move radar
-        setTurnRadarRightRadians(Utils.normalRelativeAngle(radarTurn));
+        setTurnRadarRightRadians(radarTurn);
 
         // move gun
         double gunSpin = getGunHeadingRadians() - getRadarHeadingRadians();
         setTurnGunLeftRadians(gunSpin);
 
-        if (getEnergy() < 15) {
-            fire(3);
-        } else {
-            fire(1);
-        }
     }
 
     private void configureTank() {
